@@ -60,15 +60,15 @@ h1{font-size:46px;line-height:1.05;text-transform:uppercase;max-width:none}
 WX_CSS = r"""
 .np-head{display:flex;align-items:center;gap:28px}
 .np-title{flex:1 1 auto;min-width:0}
-.np-wx{flex:0 0 160px;text-align:center}
-.np-wx svg{display:block!important;width:120px;height:120px;margin:0 auto;overflow:visible}
+.np-wx{flex:0 0 200px;text-align:center;align-self:center}
+.np-wx svg{display:block!important;width:176px;height:176px;margin:-6px auto 2px;overflow:visible}
 .np-wx .cap{white-space:nowrap;font-family:"LM Roman","Latin Modern Roman","CMU Serif",Georgia,serif;font-size:18px;color:#4A4842;letter-spacing:.02em;font-variant:small-caps;margin-top:4px}
 .np-wx .cap b{color:#2E2C27;font-weight:700}
 @keyframes wx-spin{to{transform:rotate(360deg)}}
 @keyframes wx-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @keyframes wx-drift{0%,100%{transform:translateX(-5px)}50%{transform:translateX(6px)}}
-@keyframes wx-fall{0%{transform:translateY(-6px);opacity:0}20%{opacity:1}100%{transform:translateY(26px);opacity:0}}
-@keyframes wx-snow{0%{transform:translate(0,-6px);opacity:0}20%{opacity:1}50%{transform:translate(4px,10px)}100%{transform:translate(-3px,26px);opacity:0}}
+@keyframes wx-fall{0%{transform:translateY(-6px);opacity:0}20%{opacity:1}100%{transform:translateY(14px);opacity:0}}
+@keyframes wx-snow{0%{transform:translate(0,-6px);opacity:0}20%{opacity:1}50%{transform:translate(4px,10px)}100%{transform:translate(-3px,14px);opacity:0}}
 @keyframes wx-flash{0%,86%,100%{opacity:0}88%,92%{opacity:1}90%{opacity:.3}}
 @keyframes wx-fog{0%,100%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
 .wx-rays{transform-origin:60px 60px;animation:wx-spin 14s linear infinite}
@@ -79,7 +79,7 @@ WX_CSS = r"""
 .wx-bolt{animation:wx-flash 4s linear infinite}
 .wx-fogline{animation:wx-fog 5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.np-wx *{animation:none!important}}
-@media (max-width:640px){.np-head{gap:12px}.np-wx{flex-basis:84px}.np-wx svg{width:80px;height:80px}.np-wx .cap{font-size:12px}}
+@media (max-width:640px){.np-head{gap:12px}.np-wx{flex-basis:104px}.np-wx svg{width:100px;height:100px}.np-wx .cap{font-size:12px}}
 """
 
 SUN_C = "#E8A33A"; CLAY = "#C6613F"; INK = "#2E2C27"; RAIN = "#5B83A8"
@@ -98,17 +98,17 @@ def _drops(color=RAIN, cls="wx-drop"):
     for i, x in enumerate((44, 58, 72, 86)):
         d = f"{i*0.32:.2f}s"
         if cls == "wx-drop":
-            out += f'<line class="{cls}" style="animation-delay:{d}" x1="{x}" y1="90" x2="{x-3}" y2="99" stroke="{color}" stroke-width="3" stroke-linecap="round"/>'
+            out += f'<line class="{cls}" style="animation-delay:{d}" x1="{x}" y1="84" x2="{x-3}" y2="93" stroke="{color}" stroke-width="3" stroke-linecap="round"/>'
         else:
-            out += f'<circle class="{cls}" style="animation-delay:{i*0.6:.1f}s" cx="{x}" cy="94" r="3" fill="#FFFFFF" stroke="{INK}" stroke-width="1.5"/>'
+            out += f'<circle class="{cls}" style="animation-delay:{i*0.6:.1f}s" cx="{x}" cy="88" r="3" fill="#FFFFFF" stroke="{INK}" stroke-width="1.5"/>'
     return out
 WX_ART = {
   "sunny":  lambda: _sun(),
   "partly": lambda: '<g transform="translate(14 -14) scale(.8)">' + _sun() + "</g>" + _cloud(dy=8),
   "cloudy": lambda: '<g transform="translate(-14 -12) scale(.8)" opacity=".75">' + _cloud("#E9E7E0", delay="-3s") + "</g>" + _cloud(dy=6),
-  "rain":   lambda: _cloud(dy=-6) + _drops(),
-  "storm":  lambda: _cloud("#D9D6CC", dy=-6) + f'<polygon class="wx-bolt" points="62,82 52,100 61,100 55,116 72,94 63,94 68,82" fill="{SUN_C}" stroke="{CLAY}" stroke-width="1.5"/>' + _drops(),
-  "snow":   lambda: _cloud(dy=-6) + _drops(cls="wx-flake"),
+  "rain":   lambda: _cloud(dy=-14) + _drops(),
+  "storm":  lambda: _cloud("#D9D6CC", dy=-14) + f'<polygon class="wx-bolt" transform="translate(0 -12)" points="62,82 52,100 61,100 55,116 72,94 63,94 68,82" fill="{SUN_C}" stroke="{CLAY}" stroke-width="1.5"/>' + _drops(),
+  "snow":   lambda: _cloud(dy=-14) + _drops(cls="wx-flake"),
   "fog":    lambda: _cloud("#E9E7E0", dy=-10) + "".join(
                 f'<line class="wx-fogline" style="animation-delay:{i*-1.6:.1f}s" x1="{24+i*6}" y1="{90+i*9}" x2="{96-i*4}" y2="{90+i*9}" stroke="#9C9A90" stroke-width="3" stroke-linecap="round"/>' for i in range(3)),
 }
@@ -139,7 +139,7 @@ def add_weather(doc, cond=None):
     cond = cond if cond in WX_ART else detect_weather(doc)
     rng = temp_range(doc)
     cap = f"<b>{WX_LABEL[cond]}</b>" + (f" · {rng[0]}°–{rng[1]}°" if rng else "")
-    svg = f'<svg viewBox="0 0 120 120" role="img" aria-label="{WX_LABEL[cond]}">{WX_ART[cond]()}</svg>'
+    svg = f'<svg viewBox="12 10 96 96" role="img" aria-label="{WX_LABEL[cond]}">{WX_ART[cond]()}</svg>'
     head = (f'<div class="np-head"><div class="np-title">{m.group(1)}{m.group(2)}</div>'
             f'<div class="np-wx">{svg}<div class="cap">{cap}</div></div></div>')
     return doc[:m.start()] + head + doc[m.end():]

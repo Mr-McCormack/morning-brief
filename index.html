@@ -47,6 +47,33 @@ a.t:hover{text-decoration:underline}
  .act:first-child{border-top:none;padding-top:0}
 }
 </style>
+
+<!-- newspaper:start --><style>
+/* newspaper layout */
+body{background:#FBFAF6}
+.band .inner{max-width:1180px}
+.top{background:#F6F4EE;border-bottom:none}
+.top .inner{padding-bottom:28px;border-bottom:4px double #2E2C27}
+.date{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:38px;line-height:1.15;color:#2E2C27;letter-spacing:0;margin-bottom:6px}
+h1{font-size:38px;max-width:none}
+.band:not(.top) .inner{column-count:3;column-gap:22px;padding-top:28px}
+.band:not(.top) .list,.band:not(.top) .calm{break-inside:avoid;-webkit-column-break-inside:avoid;display:inline-block;width:100%;
+  background:#FFFFFF;border:1px solid #D9D6CC;border-top:3px solid #2E2C27;padding:14px 16px 6px;margin:0 0 22px}
+.band:not(.top) .list:first-child{border-top-color:#C6613F}
+.band:not(.top) h2{font-family:"Fraunces",Georgia,serif;font-size:17px;text-transform:uppercase;letter-spacing:.06em;
+  padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid #D9D6CC}
+.band:not(.top) ol{list-style:none}
+.band:not(.top) ol li{display:grid;grid-template-columns:14px 1fr;margin-bottom:12px}
+.band:not(.top) .n{font-size:0;padding-top:0}
+.band:not(.top) .n::before{content:"\2022";font-size:16px;line-height:20px;color:#2E2C27}
+.band:not(.top) .t{font-size:14px;margin-bottom:2px}
+.band:not(.top) .s{font-size:13px;line-height:1.45}
+@media (max-width:1000px){.band:not(.top) .inner{column-count:2}}
+@media (max-width:640px){
+  .band:not(.top) .inner{column-count:1}
+  .date,h1{font-size:28px}
+}
+</style><!-- newspaper:end -->
 </head>
 <body>
 <section class="band top"><div class="inner">

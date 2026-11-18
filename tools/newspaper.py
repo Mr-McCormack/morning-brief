@@ -21,7 +21,7 @@ body{background:#FBFAF6}
 .top .inner{padding-bottom:24px;border-bottom:4px double #2E2C27}
 .top .inner > svg{display:none}
 .date{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:38px;line-height:1.15;color:#2E2C27;letter-spacing:0;margin-bottom:6px}
-h1{font-family:"Oswald","Franklin Gothic Demi Cond","Franklin Gothic Medium Cond","Arial Narrow","Liberation Sans Narrow",Impact,sans-serif;font-weight:700;font-size:46px;line-height:1.05;letter-spacing:.005em;text-transform:uppercase;max-width:none}
+h1{font-family:"Noto Serif Display","Cheltenham","ITC Cheltenham",Georgia,serif;font-stretch:62.5%;font-weight:800;font-size:52px;line-height:1.02;letter-spacing:0;text-transform:uppercase;max-width:none}
 .np-grid{display:flex;gap:22px;align-items:flex-start;padding-top:4px}
 .np-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:22px}
 .np-tile{background:#FFFFFF;border:1px solid #D9D6CC;border-top:3px solid #2E2C27;padding:14px 16px 8px}
@@ -52,7 +52,7 @@ h1{font-family:"Oswald","Franklin Gothic Demi Cond","Franklin Gothic Medium Cond
   .np-col,.np-col:nth-child(3){display:contents}
   .np-tile{order:var(--o,0);width:100%}
   .date{font-size:28px}
-  h1{font-size:32px}
+  h1{font-size:36px}
 }
 """
 
@@ -144,6 +144,25 @@ def add_weather(doc, cond=None):
             f'<div class="np-wx">{svg}<div class="cap">{cap}</div></div></div>')
     return doc[:m.start()] + head + doc[m.end():]
 
+import base64, os
+_FONTDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "fonts")
+def latex_css():
+    faces = ""
+    for f, w, st in (("regular", 400, "normal"), ("bold", 700, "normal"), ("italic", 400, "italic")):
+        fp = os.path.join(_FONTDIR, f"lmroman10-{f}.woff")
+        if os.path.exists(fp):
+            b = base64.b64encode(open(fp, "rb").read()).decode()
+            faces += f'@font-face{{font-family:"LM Roman";src:url(data:font/woff;base64,{b}) format("woff");font-weight:{w};font-style:{st}}}'
+    return faces + """
+.np-tile,.np-tile *{font-family:"LM Roman","Latin Modern Roman","CMU Serif","Computer Modern",Georgia,serif}
+.np-tile h2{font-variant:small-caps;text-transform:none;letter-spacing:.04em;font-size:19px}
+.np-tile .t{font-size:15.5px}
+.np-tile .s{font-size:14.5px;line-height:1.4}
+.np-today .act b{font-size:13.5px}
+.np-today .act p{font-size:14px}
+.np-today .temps .v{font-size:19px}
+"""
+
 START, END = "<!-- newspaper:start -->", "<!-- newspaper:end -->"
 
 def text_len(s):
@@ -203,8 +222,8 @@ def main(path, cond=None):
     doc = add_weather(doc, cond)
     if "</head>" not in doc:
         sys.exit("no </head> found")
-    font = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">'
-    doc = doc.replace("</head>", f"{START}{font}<style>{CSS}{WX_CSS}</style>{END}\n</head>", 1)
+    font = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@62.5,800&display=swap" rel="stylesheet">'
+    doc = doc.replace("</head>", f"{START}{font}<style>{CSS}{WX_CSS}{latex_css()}</style>{END}\n</head>", 1)
     open(path, "w", encoding="utf-8").write(doc)
 
 if __name__ == "__main__":

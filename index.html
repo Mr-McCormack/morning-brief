@@ -53,24 +53,39 @@ a.t:hover{text-decoration:underline}
 body{background:#FBFAF6}
 .band .inner{max-width:1180px}
 .top{background:#F6F4EE;border-bottom:none}
-.top .inner{padding-bottom:28px;border-bottom:4px double #2E2C27}
+.top .inner{padding-bottom:24px;border-bottom:4px double #2E2C27}
+.top svg{display:none}
 .date{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:38px;line-height:1.15;color:#2E2C27;letter-spacing:0;margin-bottom:6px}
 h1{font-size:38px;max-width:none}
-.band:not(.top) .inner{column-count:3;column-gap:22px;padding-top:28px}
-.band:not(.top) .list,.band:not(.top) .calm{break-inside:avoid;-webkit-column-break-inside:avoid;display:inline-block;width:100%;
-  background:#FFFFFF;border:1px solid #D9D6CC;border-top:3px solid #2E2C27;padding:14px 16px 6px;margin:0 0 22px}
-.band:not(.top) .list:first-child{border-top-color:#C6613F}
-.band:not(.top) h2{font-family:"Fraunces",Georgia,serif;font-size:17px;text-transform:uppercase;letter-spacing:.06em;
-  padding-bottom:8px;margin-bottom:12px;border-bottom:1px solid #D9D6CC}
-.band:not(.top) ol{list-style:none}
-.band:not(.top) ol li{display:grid;grid-template-columns:14px 1fr;margin-bottom:12px}
-.band:not(.top) .n{font-size:0;padding-top:0}
-.band:not(.top) .n::before{content:"\2022";font-size:16px;line-height:20px;color:#2E2C27}
-.band:not(.top) .t{font-size:14px;margin-bottom:2px}
-.band:not(.top) .s{font-size:13px;line-height:1.45}
-@media (max-width:1000px){.band:not(.top) .inner{column-count:2}}
+.np-grid{display:flex;gap:22px;align-items:flex-start;padding-top:4px}
+.np-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:22px}
+.np-tile{background:#FFFFFF;border:1px solid #D9D6CC;border-top:3px solid #2E2C27;padding:14px 16px 8px}
+.np-tile.np-alert{border-top-color:#C6613F}
+.np-tile h2{font-family:"Fraunces",Georgia,serif;font-size:17px;text-transform:uppercase;letter-spacing:.06em;
+  padding-bottom:8px;margin:0 0 12px;border-bottom:1px solid #D9D6CC}
+.np-tile.list{margin:0}
+.np-tile ol{list-style:none}
+.np-tile ol li{display:grid;grid-template-columns:14px 1fr;margin-bottom:12px}
+.np-tile .n{font-size:0;padding-top:0}
+.np-tile .n::before{content:"\2022";font-size:16px;line-height:20px;color:#2E2C27}
+.np-tile .t{font-size:14px;margin-bottom:2px}
+.np-tile .s{font-size:13px;line-height:1.45}
+/* Today tile: vertical agenda with temps on the right */
+.np-today .agenda{display:grid;grid-template-columns:1fr 64px;gap:0}
+.np-today .acts{display:block}
+.np-today .act{border:none;border-top:1px solid #ECEAE3;padding:8px 10px 8px 0}
+.np-today .act:first-child{border-top:none;padding-top:0}
+.np-today .act b{font-size:12px;margin-bottom:2px}
+.np-today .act p{font-size:13px;line-height:1.4}
+.np-today .temps{padding-left:12px}
+.np-today .temps li{display:block;margin:0 0 6px}
+.np-today .temps .h{font-size:10px}
+.np-today .temps .v{font-size:17px}
+@media (max-width:1000px){.np-col:nth-child(3){display:contents}.np-grid{flex-wrap:wrap}.np-col{flex:1 1 45%}}
 @media (max-width:640px){
-  .band:not(.top) .inner{column-count:1}
+  .np-grid{flex-direction:column;gap:18px}
+  .np-col,.np-col:nth-child(3){display:contents}
+  .np-tile{order:var(--o,0);width:100%}
   .date,h1{font-size:28px}
 }
 </style><!-- newspaper:end -->
@@ -93,7 +108,10 @@ h1{font-size:38px;max-width:none}
     <path d="M712 66 a14 14 0 1 0 12 -20 a11 11 0 0 1 -12 20"/>
   </g>
 </svg>
-<div class="agenda">
+
+</div></section>
+
+<section class="band"><div class="inner"><div class="np-grid"><div class="np-col"><div style="--o:0" class="np-tile np-today"><h2>Today</h2><div class="agenda">
 <div class="acts">
   <div class="act"><b>6 – 11 AM</b><p>A regular day of classes and a staff jeans day, starting at a crisp 39°.</p></div>
   <div class="act"><b>11 AM – 4 PM</b><p>No meetings during 3rd block today; sunny, with a high near 65°.</p></div>
@@ -106,19 +124,42 @@ h1{font-size:38px;max-width:none}
   <li><span class="h">6 PM</span><span class="v">58°</span></li>
   <li><span class="h">10 PM</span><span class="v">50°</span></li>
 </ul>
-</div>
-</div></section>
-
-<section class="band"><div class="inner">
-<div class="list">
+</div></div><div style="--o:3" class="np-tile list ">
+<h2>KHS</h2>
+<ol>
+<li><span class="n">1</span><div><span class="t">Keep students away from the World Language hall</span><p class="s">Per the admin notes, EOC testing happens in the World Language area, so students shouldn't be sent there during testing.</p></div></li>
+<li><span class="n">2</span><div><span class="t">No early finals</span><p class="s">A student who will miss a final needs a parent to email an administrator, and the makeup happens in the first 10 days of next semester. Assessment accountability ends Dec 8.</p></div></li>
+<li><span class="n">3</span><div><span class="t">Taco Mac holiday party RSVP</span><p class="s">The admin notes ask everyone to RSVP for the staff holiday event. No date was given.</p></div></li>
+<li><span class="n">4</span><div><span class="t">Events and jeans days</span><p class="s">Staff jeans days are Nov 18–20. Home events are basketball Dec 4, the band concert Dec 10, and the chorus/orchestra concert Dec 15.</p></div></li>
+</ol>
+</div><div style="--o:6" class="np-tile list ">
+<h2>Auburn</h2>
+<ol>
+<li><span class="n">1</span><div><a class="t" href="https://www.on3.com/sites/wv-sports/news/west-virginia-survives-against-auburn-76-70/">West Virginia edged Auburn in Las Vegas</a><p class="s">Per <a href="https://www.on3.com/sites/wv-sports/news/west-virginia-survives-against-auburn-76-70/">On3's WV Sports</a>, the Mountaineers won 76–70 in the Players Era opener early this morning after building an 11-point lead early in the second half.</p></div></li>
+<li><span class="n">2</span><div><a class="t" href="https://sports.yahoo.com/articles/rewinding-auburn-monday-press-conference-184419568.html">Golesh previews Samford, eyes Riddick's return</a><p class="s">Per <a href="https://sports.yahoo.com/articles/rewinding-auburn-monday-press-conference-184419568.html">Yahoo Sports</a>, the 6–4 Tigers host Samford Saturday at 2:30 PM CT on SEC Network, and linebacker De'Marcus Riddick is working to be back for the Iron Bowl.</p></div></li>
+<li><span class="n">3</span><div><a class="t" href="https://sports.yahoo.com/articles/iron-bowl-kick-off-sec-180745427.html">Iron Bowl kickoff still to be set</a><p class="s">Per <a href="https://sports.yahoo.com/articles/iron-bowl-kick-off-sec-180745427.html">Yahoo Sports</a>, the Nov 28 game in Tuscaloosa will start at either 2:30 or 6:30 PM CT, with the SEC deciding after this Saturday.</p></div></li>
+</ol>
+</div></div><div class="np-col"><div style="--o:1" class="np-tile list np-alert">
 <h2>Needs attention</h2>
 <ol>
 <li><span class="n">1</span><div><span class="t">Tomorrow's 3rd block: EOC training, then FOA meeting</span><p class="s">An email offers 3rd-block EOC training at 12:17 or 1:17 PM, and EOC teachers stay the full session to review test tickets. The FOA/Alg1 meeting on FOA scheduling and pacing runs 1:15–1:45 PM, which clashes with the 1:17 session. Only the 12:17 session avoids the clash.</p></div></li>
 <li><span class="n">2</span><div><span class="t">Find your EOC testing room on the Math tab</span><p class="s">Per the same email, testing locations are on each subject's tab of the KHS Winter Main 2026 spreadsheet.</p></div></li>
 </ol>
-</div>
-
-<div class="list">
+</div><div style="--o:4" class="np-tile list ">
+<h2>Chatt Tech · MATH 1111 College Algebra</h2>
+<ol>
+<li><span class="n">1</span><div><span class="t">Week 14: Exponential and Log Equations</span><p class="s">Unit 4 Lesson 4 continues in Thursday's class tomorrow, after Tuesday's session.</p></div></li>
+<li><span class="n">2</span><div><span class="t">Homework due Sunday, Nov 22 at 11:59 PM</span><p class="s">Thanksgiving week follows, with no classes at all.</p></div></li>
+<li><span class="n">3</span><div><span class="t">Unit 4 Test Thursday, Dec 3</span><p class="s">Tuesday, Dec 1 is review, and the in-class final is Thursday, Dec 10.</p></div></li>
+</ol>
+</div><div style="--o:5" class="np-tile list ">
+<h2>UTF · MAT 253 Intro to Stats</h2>
+<ol>
+<li><span class="n">1</span><div><span class="t">Week 5: Inference and Confidence Intervals</span><p class="s">Unit 5 runs Nov 16–22 in MyOpenMath.</p></div></li>
+<li><span class="n">2</span><div><span class="t">Due Sunday, Nov 22 at 11:59 PM</span><p class="s">Students owe Discussion Post 5, Unit 5 HW Parts A–B, and the Unit 5 Quiz.</p></div></li>
+<li><span class="n">3</span><div><span class="t">Next: Hypothesis Testing over Thanksgiving week</span><p class="s">Unit 6 runs Nov 23–29. Classes end Dec 6, and the final is due Friday, Dec 11.</p></div></li>
+</ol>
+</div></div><div class="np-col"><div style="--o:2" class="np-tile list ">
 <h2>Coming up</h2>
 <ol>
 <li><span class="n">1</span><div><span class="t">Thanksgiving break in 2 days</span><p class="s">Friday, Nov 20 is the last day before the break. The CCSD calendar has no school Monday, Nov 23 through Friday, Nov 27.</p></div></li>
@@ -128,46 +169,7 @@ h1{font-size:38px;max-width:none}
 <li><span class="n">5</span><div><span class="t">Avian's birthday and early release in 29 days</span><p class="s">On the Family calendar, Avian's birthday falls on Thursday, Dec 17, the first of CCSD's two early-release days.</p></div></li>
 <li><span class="n">6</span><div><span class="t">Winter break in 30 days</span><p class="s">Friday, Dec 18 is the last day before the break, and it's an early-release day. CCSD has no school Monday, Dec 21 through Friday, Jan 1.</p></div></li>
 </ol>
-</div>
-
-<div class="list">
-<h2>KHS</h2>
-<ol>
-<li><span class="n">1</span><div><span class="t">Keep students away from the World Language hall</span><p class="s">Per the admin notes, EOC testing happens in the World Language area, so students shouldn't be sent there during testing.</p></div></li>
-<li><span class="n">2</span><div><span class="t">No early finals</span><p class="s">A student who will miss a final needs a parent to email an administrator, and the makeup happens in the first 10 days of next semester. Assessment accountability ends Dec 8.</p></div></li>
-<li><span class="n">3</span><div><span class="t">Taco Mac holiday party RSVP</span><p class="s">The admin notes ask everyone to RSVP for the staff holiday event. No date was given.</p></div></li>
-<li><span class="n">4</span><div><span class="t">Events and jeans days</span><p class="s">Staff jeans days are Nov 18–20. Home events are basketball Dec 4, the band concert Dec 10, and the chorus/orchestra concert Dec 15.</p></div></li>
-</ol>
-</div>
-
-<div class="list">
-<h2>Chatt Tech · MATH 1111 College Algebra</h2>
-<ol>
-<li><span class="n">1</span><div><span class="t">Week 14: Exponential and Log Equations</span><p class="s">Unit 4 Lesson 4 continues in Thursday's class tomorrow, after Tuesday's session.</p></div></li>
-<li><span class="n">2</span><div><span class="t">Homework due Sunday, Nov 22 at 11:59 PM</span><p class="s">Thanksgiving week follows, with no classes at all.</p></div></li>
-<li><span class="n">3</span><div><span class="t">Unit 4 Test Thursday, Dec 3</span><p class="s">Tuesday, Dec 1 is review, and the in-class final is Thursday, Dec 10.</p></div></li>
-</ol>
-</div>
-
-<div class="list">
-<h2>UTF · MAT 253 Intro to Stats</h2>
-<ol>
-<li><span class="n">1</span><div><span class="t">Week 5: Inference and Confidence Intervals</span><p class="s">Unit 5 runs Nov 16–22 in MyOpenMath.</p></div></li>
-<li><span class="n">2</span><div><span class="t">Due Sunday, Nov 22 at 11:59 PM</span><p class="s">Students owe Discussion Post 5, Unit 5 HW Parts A–B, and the Unit 5 Quiz.</p></div></li>
-<li><span class="n">3</span><div><span class="t">Next: Hypothesis Testing over Thanksgiving week</span><p class="s">Unit 6 runs Nov 23–29. Classes end Dec 6, and the final is due Friday, Dec 11.</p></div></li>
-</ol>
-</div>
-
-<div class="list">
-<h2>Auburn</h2>
-<ol>
-<li><span class="n">1</span><div><a class="t" href="https://www.on3.com/sites/wv-sports/news/west-virginia-survives-against-auburn-76-70/">West Virginia edged Auburn in Las Vegas</a><p class="s">Per <a href="https://www.on3.com/sites/wv-sports/news/west-virginia-survives-against-auburn-76-70/">On3's WV Sports</a>, the Mountaineers won 76–70 in the Players Era opener early this morning after building an 11-point lead early in the second half.</p></div></li>
-<li><span class="n">2</span><div><a class="t" href="https://sports.yahoo.com/articles/rewinding-auburn-monday-press-conference-184419568.html">Golesh previews Samford, eyes Riddick's return</a><p class="s">Per <a href="https://sports.yahoo.com/articles/rewinding-auburn-monday-press-conference-184419568.html">Yahoo Sports</a>, the 6–4 Tigers host Samford Saturday at 2:30 PM CT on SEC Network, and linebacker De'Marcus Riddick is working to be back for the Iron Bowl.</p></div></li>
-<li><span class="n">3</span><div><a class="t" href="https://sports.yahoo.com/articles/iron-bowl-kick-off-sec-180745427.html">Iron Bowl kickoff still to be set</a><p class="s">Per <a href="https://sports.yahoo.com/articles/iron-bowl-kick-off-sec-180745427.html">Yahoo Sports</a>, the Nov 28 game in Tuscaloosa will start at either 2:30 or 6:30 PM CT, with the SEC deciding after this Saturday.</p></div></li>
-</ol>
-</div>
-
-<div class="list">
+</div><div style="--o:7" class="np-tile list ">
 <h2>Headlines</h2>
 <ol>
 <li><span class="n">1</span><div><a class="t" href="https://www.cbsnews.com/news/alaska-2026-senate-sullivan-peltola/">Peltola wins Alaska's Senate race</a><p class="s">Per <a href="https://www.cbsnews.com/news/alaska-2026-senate-sullivan-peltola/">CBS News</a>, Democrat Mary Peltola defeated Republican Sen. Dan Sullivan, the last Senate race called this cycle, leaving Democrats with 56 seats to 44.</p></div></li>
@@ -175,7 +177,6 @@ h1{font-size:38px;max-width:none}
 <li><span class="n">3</span><div><a class="t" href="https://www.stripes.com/theaters/europe/2026-11-16/ukraine-drone-strike-crimea-bridge-23483059.html">Ukraine hits the Crimean Bridge in a record drone barrage</a><p class="s">Per <a href="https://www.stripes.com/theaters/europe/2026-11-16/ukraine-drone-strike-crimea-bridge-23483059.html">Stars and Stripes</a>, the strike also hit an oil refinery, coming after U.S.-brokered peace talks ended without a breakthrough.</p></div></li>
 <li><span class="n">4</span><div><a class="t" href="https://www.cbsnews.com/atlanta/news/hdi-america-plans-47-million-georgia-plant-expects-to-add-185-jobs-by-2030/">Auto-parts maker plans $47 million Georgia plant</a><p class="s">Per <a href="https://www.cbsnews.com/atlanta/news/hdi-america-plans-47-million-georgia-plant-expects-to-add-185-jobs-by-2030/">CBS Atlanta</a>, HDI America will build in Candler County and expects at least 185 jobs by 2030.</p></div></li>
 </ol>
-</div>
-</div></section>
+</div></div></div></div></section>
 </body>
 </html>

@@ -62,8 +62,8 @@ WX_CSS = r"""
 .np-title{flex:1 1 auto;min-width:0}
 .np-wx{flex:0 0 160px;text-align:center}
 .np-wx svg{display:block!important;width:120px;height:120px;margin:0 auto;overflow:visible}
-.np-wx .cap{white-space:nowrap;font-size:12px;color:#6B6A63;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
-.np-wx .cap b{color:#2E2C27;font-weight:600}
+.np-wx .cap{white-space:nowrap;font-family:"LM Roman","Latin Modern Roman","CMU Serif",Georgia,serif;font-size:18px;color:#4A4842;letter-spacing:.02em;font-variant:small-caps;margin-top:4px}
+.np-wx .cap b{color:#2E2C27;font-weight:700}
 @keyframes wx-spin{to{transform:rotate(360deg)}}
 @keyframes wx-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @keyframes wx-drift{0%,100%{transform:translateX(-5px)}50%{transform:translateX(6px)}}
@@ -79,7 +79,7 @@ WX_CSS = r"""
 .wx-bolt{animation:wx-flash 4s linear infinite}
 .wx-fogline{animation:wx-fog 5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.np-wx *{animation:none!important}}
-@media (max-width:640px){.np-head{gap:12px}.np-wx{flex-basis:84px}.np-wx svg{width:80px;height:80px}.np-wx .cap{font-size:10px}}
+@media (max-width:640px){.np-head{gap:12px}.np-wx{flex-basis:84px}.np-wx svg{width:80px;height:80px}.np-wx .cap{font-size:12px}}
 """
 
 SUN_C = "#E8A33A"; CLAY = "#C6613F"; INK = "#2E2C27"; RAIN = "#5B83A8"

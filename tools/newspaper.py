@@ -21,7 +21,7 @@ body{background:#FBFAF6}
 .top .inner{padding-bottom:24px;border-bottom:4px double #2E2C27}
 .top .inner > svg{display:none}
 .date{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:38px;line-height:1.15;color:#2E2C27;letter-spacing:0;margin-bottom:6px}
-h1{font-size:38px;max-width:none}
+h1{font-family:"Oswald","Franklin Gothic Demi Cond","Franklin Gothic Medium Cond","Arial Narrow","Liberation Sans Narrow",Impact,sans-serif;font-weight:700;font-size:46px;line-height:1.05;letter-spacing:.005em;text-transform:uppercase;max-width:none}
 .np-grid{display:flex;gap:22px;align-items:flex-start;padding-top:4px}
 .np-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:22px}
 .np-tile{background:#FFFFFF;border:1px solid #D9D6CC;border-top:3px solid #2E2C27;padding:14px 16px 8px}
@@ -51,7 +51,8 @@ h1{font-size:38px;max-width:none}
   .np-grid{flex-direction:column;gap:18px}
   .np-col,.np-col:nth-child(3){display:contents}
   .np-tile{order:var(--o,0);width:100%}
-  .date,h1{font-size:28px}
+  .date{font-size:28px}
+  h1{font-size:32px}
 }
 """
 
@@ -202,7 +203,8 @@ def main(path, cond=None):
     doc = add_weather(doc, cond)
     if "</head>" not in doc:
         sys.exit("no </head> found")
-    doc = doc.replace("</head>", f"{START}<style>{CSS}{WX_CSS}</style>{END}\n</head>", 1)
+    font = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">'
+    doc = doc.replace("</head>", f"{START}{font}<style>{CSS}{WX_CSS}</style>{END}\n</head>", 1)
     open(path, "w", encoding="utf-8").write(doc)
 
 if __name__ == "__main__":

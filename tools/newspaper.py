@@ -21,7 +21,7 @@ body{background:#FBFAF6}
 .top .inner{padding-bottom:24px;border-bottom:4px double #2E2C27}
 .top .inner > svg{display:none}
 .date{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:38px;line-height:1.15;color:#2E2C27;letter-spacing:0;margin-bottom:6px}
-h1{font-family:"Noto Serif Display","Cheltenham","ITC Cheltenham",Georgia,serif;font-stretch:62.5%;font-weight:800;font-size:52px;line-height:1.02;letter-spacing:0;text-transform:uppercase;max-width:none}
+h1{font-size:46px;line-height:1.05;text-transform:uppercase;max-width:none}
 .np-grid{display:flex;gap:22px;align-items:flex-start;padding-top:4px}
 .np-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:22px}
 .np-tile{background:#FFFFFF;border:1px solid #D9D6CC;border-top:3px solid #2E2C27;padding:14px 16px 8px}
@@ -52,7 +52,7 @@ h1{font-family:"Noto Serif Display","Cheltenham","ITC Cheltenham",Georgia,serif;
   .np-col,.np-col:nth-child(3){display:contents}
   .np-tile{order:var(--o,0);width:100%}
   .date{font-size:28px}
-  h1{font-size:36px}
+  h1{font-size:26px}
 }
 """
 
@@ -222,8 +222,10 @@ def main(path, cond=None):
     doc = add_weather(doc, cond)
     if "</head>" not in doc:
         sys.exit("no </head> found")
-    font = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@62.5,800&display=swap" rel="stylesheet">'
-    doc = doc.replace("</head>", f"{START}{font}<style>{CSS}{WX_CSS}{latex_css()}</style>{END}\n</head>", 1)
+    doc = doc.replace("</head>", f"{START}<style>{CSS}{WX_CSS}{latex_css()}</style>{END}\n</head>", 1)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import headline_font
+    doc = headline_font.apply(doc)
     open(path, "w", encoding="utf-8").write(doc)
 
 if __name__ == "__main__":

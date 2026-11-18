@@ -29,4 +29,5 @@ def apply(doc):
 
 if __name__ == "__main__":
     p = sys.argv[1] if len(sys.argv) > 1 else "index.html"
-    open(p, "w", encoding="utf-8").write(apply(open(p, encoding="utf-8").read()))
+    doc = open(p, encoding="utf-8").read()
+    open(p, "w", encoding="utf-8").write(apply(doc))

@@ -130,6 +130,26 @@ def temp_range(doc):
     vals = [int(v) for v in re.findall(r'<span class="v">\s*(-?\d+)°', doc)]
     return (min(vals), max(vals)) if vals else None
 
+
+# Live current temperature under the weather icon: fetched in the browser on every
+# page load and every 30 minutes while the page stays open. Actual station readings
+# from the National Weather Service (Paulding airport KPUJ, then Cobb/McCollum KRYY);
+# Open-Meteo's current conditions as a last resort. If every source fails, the
+# caption keeps the day's forecast range written at build time.
+LIVE_TEMP_JS = """<script>(function(){
+var el=document.getElementById('wx-now');if(!el)return;
+function fmt(d){return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/New_York'});}
+function nws(s){return fetch('https://api.weather.gov/stations/'+s+'/observations/latest',{headers:{Accept:'application/geo+json'},cache:'no-store'})
+ .then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){var p=j.properties,c=p&&p.temperature&&p.temperature.value,t=new Date(p.timestamp);
+ if(c==null||isNaN(t)||Date.now()-t>7200000)throw 0;return {f:Math.round(c*9/5+32),t:t,src:'NWS '+s};});}
+function om(){return fetch('https://api.open-meteo.com/v1/forecast?latitude=33.92&longitude=-84.84&current=temperature_2m&temperature_unit=fahrenheit&timezone=America%2FNew_York',{cache:'no-store'})
+ .then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){var c=j.current;if(!c||c.temperature_2m==null)throw 0;return {f:Math.round(c.temperature_2m),t:new Date(),src:'Open-Meteo'};});}
+function upd(){nws('KPUJ').catch(function(){return nws('KRYY');}).catch(om).then(function(o){
+ el.textContent=o.f+'\\u00b0 now';el.title=o.src+' \\u00b7 '+fmt(o.t);}).catch(function(){});}
+upd();setInterval(upd,1800000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)upd();});
+})();</script>"""
+
 def add_weather(doc, cond=None):
     if 'class="np-head"' in doc:
         return doc
@@ -138,10 +158,10 @@ def add_weather(doc, cond=None):
         return doc
     cond = cond if cond in WX_ART else detect_weather(doc)
     rng = temp_range(doc)
-    cap = f"<b>{WX_LABEL[cond]}</b>" + (f" · {rng[0]}°–{rng[1]}°" if rng else "")
+    cap = f"<b>{WX_LABEL[cond]}</b>" + (f' · <span id="wx-now">{rng[0]}°–{rng[1]}°</span>' if rng else ' <span id="wx-now"></span>')
     svg = f'<svg viewBox="12 10 96 96" role="img" aria-label="{WX_LABEL[cond]}">{WX_ART[cond]()}</svg>'
     head = (f'<div class="np-head"><div class="np-title">{m.group(1)}{m.group(2)}</div>'
-            f'<div class="np-wx">{svg}<div class="cap">{cap}</div></div></div>')
+            f'<div class="np-wx">{svg}<div class="cap">{cap}</div></div></div>' + LIVE_TEMP_JS)
     return doc[:m.start()] + head + doc[m.end():]
 
 import base64, os
